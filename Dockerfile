@@ -3,13 +3,13 @@ FROM java:8
 RUN apt-get update
 RUN apt-get install -y maven
 
-WORKDIR /
+WORKDIR /app
 
-ADD pom.xml pom.xml
+ADD pom.xml /app/pom.xml
 RUN ["mvn", "dependency:resolve"]
 RUN ["mvn", "verify"]
 
-ADD src /src/main
+ADD src /app/src
 RUN ["mvn", "package"]
 
 EXPOSE 8080
