@@ -1,9 +1,11 @@
+@file:JvmName("Application")
+@file:JvmMultifileClass
+
 package com.andredina
 
 import com.andredina.di.DaggerAppComponent
 import spark.Route
 import spark.Spark.*
-
 
 fun main(args: Array<String>) {
 
