@@ -1,0 +1,6 @@
+CREATE TABLE `urls` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `code` VARCHAR(45) NULL,
+  `address` VARCHAR(200) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `code_UNIQUE` (`code` ASC));
