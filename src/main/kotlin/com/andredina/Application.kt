@@ -1,6 +1,3 @@
-@file:JvmName("Application")
-@file:JvmMultifileClass
-
 package com.andredina
 
 import com.andredina.di.DaggerAppComponent
@@ -14,7 +11,7 @@ fun main(args: Array<String>) {
     val transformer = component.providesResponseTransformer()
 
     port(8080)
-    get("/") { _, _ -> "ShortURL Shortener Service 1.0" }
+    get("/") { _, _ -> "URL Shortener Service 1.0" }
     post("/", Route { req, res -> controller.generate(req, res) } , transformer)
     get("/:code", controller::redirect)
 
