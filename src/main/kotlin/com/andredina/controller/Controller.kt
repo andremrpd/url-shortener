@@ -1,13 +1,10 @@
 package com.andredina.controller
 
-import com.andredina.ROOT_URL
 import com.andredina.dao.UrlsDAO
 import com.andredina.model.ErrorOut
 import com.andredina.model.Out
-import com.andredina.model.ShortURL
 import com.andredina.model.URLOut
 import com.andredina.util.CodeNotFoundException
-import com.andredina.util.URLGenerator
 import spark.Request
 import spark.Response
 import java.net.MalformedURLException
@@ -16,7 +13,7 @@ import java.util.logging.Level
 import java.util.logging.Logger
 import javax.inject.Inject
 
-class Controller @Inject constructor(private val dao: UrlsDAO, private val generator: URLGenerator){
+class Controller @Inject constructor(private val dao: UrlsDAO){
 
     private val logger = Logger.getLogger(Controller::class.java.simpleName)
 
@@ -24,11 +21,8 @@ class Controller @Inject constructor(private val dao: UrlsDAO, private val gener
 
         return try {
             val address = URL(request.queryParams("address"))
-            val id = dao.insert(address)
-            val code = generator.encode(id)
-            dao.update(ShortURL(id, code, address.toString()))
-
-            val generatedUrl = ROOT_URL.plus(code)
+            val shortURL = dao.create(address)
+            val generatedUrl = request.url().plus(shortURL.code)
             logger.info("ShortURL Generated: $generatedUrl")
 
             URLOut(generatedUrl)

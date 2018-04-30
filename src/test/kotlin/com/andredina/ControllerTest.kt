@@ -3,6 +3,7 @@ package com.andredina
 import com.andredina.controller.Controller
 import com.andredina.dao.UrlsDAO
 import com.andredina.model.ErrorOut
+import com.andredina.model.ShortURL
 import com.andredina.model.URLOut
 import com.andredina.util.URLGenerator
 import org.junit.Test
@@ -20,8 +21,7 @@ class ControllerTest {
     val dao =  mock<UrlsDAO>()
     val request = mock<Request>()
     val response = mock<Response>()
-    val urlGenerator = URLGenerator()
-    val controller: Controller = Controller(dao, urlGenerator)
+    val controller: Controller = Controller(dao)
 
     @Test
     fun generate_success() {
@@ -29,7 +29,8 @@ class ControllerTest {
         val url = URL(address)
 
         Mockito.`when`(request.queryParams("address")).thenReturn(address)
-        Mockito.`when`(dao.insert(url)).thenReturn(100L)
+        Mockito.`when`(request.url()).thenReturn("http://localhost:8080/")
+        Mockito.`when`(dao.create(url)).thenReturn(ShortURL(100L, "bM", address))
 
         assertEquals(URLOut("http://localhost:8080/bM"), controller.generate(request, response))
     }
@@ -40,7 +41,7 @@ class ControllerTest {
         val url = URL(address)
 
         Mockito.`when`(request.queryParams("address")).thenReturn(address)
-        Mockito.`when`(dao.insert(url)).thenReturn(100L)
+        Mockito.`when`(dao.create(url)).thenReturn(ShortURL(100L, "bM", address))
 
         assertEquals(ErrorOut("Invalid Address"), controller.generate(request, response))
         Mockito.verify(response, Mockito.times(1)).status(500)

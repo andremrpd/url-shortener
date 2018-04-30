@@ -10,7 +10,7 @@ fun main(args: Array<String>) {
     val controller = component.providesController()
     val transformer = component.providesResponseTransformer()
 
-    port(8080)
+    port(SERVER_PORT)
     get("/") { _, _ -> "URL Shortener Service 1.0" }
     post("/", Route { req, res -> controller.generate(req, res) } , transformer)
     get("/:code", controller::redirect)

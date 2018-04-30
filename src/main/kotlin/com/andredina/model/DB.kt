@@ -1,5 +1,5 @@
 package com.andredina.model
 
-data class ShortURL (var id: Long?,
+data class ShortURL (var id: Long,
                      var code: String?,
-                     var address: String)
+                     var address: String? )

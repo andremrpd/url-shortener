@@ -16,10 +16,10 @@ import javax.inject.Singleton
 @Module class AppModule {
 
     @Singleton
-    @Provides fun providesController(urlsDAO: UrlsDAO, urlGenerator: URLGenerator) = Controller(urlsDAO, urlGenerator)
+    @Provides fun providesController(urlsDAO: UrlsDAO) = Controller(urlsDAO)
 
     @Singleton
-    @Provides fun providesUrlsDAO(sql2o: Sql2o): UrlsDAO = MySQLUrlsDAO(sql2o)
+    @Provides fun providesUrlsDAO(sql2o: Sql2o, urlGenerator: URLGenerator): UrlsDAO = MySQLUrlsDAO(sql2o, urlGenerator)
 
     @Singleton
     @Provides fun providesURLGenerator() = URLGenerator()
